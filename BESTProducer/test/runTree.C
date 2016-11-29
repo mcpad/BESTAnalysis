@@ -81,6 +81,12 @@ void runTree(string inFile, string outFile, string histName, float targX, float 
    listOfVars.push_back("sumP_W");
    listOfVars.push_back("sumP_Z");
    listOfVars.push_back("sumP_H");
+   listOfVars.push_back("jetCross_W");
+   listOfVars.push_back("jetCross_H");
+   listOfVars.push_back("jetCross_Z");
+   listOfVars.push_back("jetCross_T");
+   listOfVars.push_back("jetCross_jet");
+   listOfVars.push_back("jetCross_noBoost");
    listOfVars.push_back("targetX");
    listOfVars.push_back("targetY");
  
@@ -150,10 +156,18 @@ void runTree(string inFile, string outFile, string histName, float targX, float 
    reader->AddVariable( "aplanarity_Z", &treeVars[ "aplanarity_Z" ] );	
    reader->AddVariable( "sphericity_Z", &treeVars[ "sphericity_Z" ] );	
    reader->AddVariable( "thrust_Z", &treeVars[ "thrust_Z" ] );	
-   reader->AddVariable( "sumPz_top/sumP_top", &treeVars["PzOverP_top"] );
-   reader->AddVariable( "sumPz_W/sumP_W", &treeVars["PzOverP_W"] );
-   reader->AddVariable( "sumPz_Z/sumP_Z", &treeVars["PzOverP_Z"] );
-   reader->AddVariable( "sumPz_H/sumP_H", &treeVars["PzOverP_H"] );
+   reader->AddVariable( "sumPz_top / sumP_top", &treeVars["PzOverP_top"] );
+   reader->AddVariable( "sumPz_W / sumP_W", &treeVars["PzOverP_W"] );
+   reader->AddVariable( "sumPz_Z / sumP_Z", &treeVars["PzOverP_Z"] );
+   reader->AddVariable( "sumPz_H / sumP_H", &treeVars["PzOverP_H"] );
+   reader->AddVariable( "jetCross_W", &treeVars["jetCross_W"] );
+   reader->AddVariable( "jetCross_H", &treeVars["jetCross_H"] );
+   reader->AddVariable( "jetCross_Z", &treeVars["jetCross_Z"] );
+   reader->AddVariable( "jetCross_T", &treeVars["jetCross_T"] );
+   reader->AddVariable( "jetCross_jet", &treeVars["jetCross_jet"] );
+   reader->AddVariable( "jetCross_noBoost", &treeVars["jetCross_noBoost"] );
+
+
 
    reader->BookMVA( "MLP method", "TMVARegression_MLP.weights.xml");
 

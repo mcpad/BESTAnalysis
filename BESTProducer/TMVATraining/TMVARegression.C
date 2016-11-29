@@ -175,7 +175,12 @@ void TMVARegression( TString myMethodList = "" )
    factory->AddVariable( "sumPz_W / sumP_W", "", 'F');
    factory->AddVariable( "sumPz_Z / sumP_Z", "", 'F');
    factory->AddVariable( "sumPz_H / sumP_H", "", 'F');
-
+   factory->AddVariable( "jetCross_W", "jetCross_W", "", 'F');
+   factory->AddVariable( "jetCross_H", "jetCross_H", "", 'F');
+   factory->AddVariable( "jetCross_Z","jetCross_Z", "", 'F');
+   factory->AddVariable( "jetCross_T", "jetCross_T", "", 'F');
+   factory->AddVariable( "jetCross_jet", "jetCross_jet", "", 'F');
+   factory->AddVariable( "jetCross_noBoost", "jetCross_noBoost", "", 'F');
 
 
    // You can add so-called "Spectator variables", which are not used in the MVA training, 
@@ -326,16 +331,5 @@ void TMVARegression( TString myMethodList = "" )
    std::cout << "==> TMVARegression is done!" << std::endl;      
 
    delete factory;
-
-
-
-
-
-
-
-
-
-
-
 
 }
