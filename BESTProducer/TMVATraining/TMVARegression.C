@@ -179,7 +179,6 @@ void TMVARegression( TString myMethodList = "" )
    factory->AddVariable( "jetCross_H", "jetCross_H", "", 'F');
    factory->AddVariable( "jetCross_Z","jetCross_Z", "", 'F');
    factory->AddVariable( "jetCross_T", "jetCross_T", "", 'F');
-   factory->AddVariable( "jetCross_jet", "jetCross_jet", "", 'F');
    factory->AddVariable( "jetCross_noBoost", "jetCross_noBoost", "", 'F');
 
 

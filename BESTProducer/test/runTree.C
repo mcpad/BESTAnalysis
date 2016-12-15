@@ -85,7 +85,6 @@ void runTree(string inFile, string outFile, string histName, float targX, float 
    listOfVars.push_back("jetCross_H");
    listOfVars.push_back("jetCross_Z");
    listOfVars.push_back("jetCross_T");
-   listOfVars.push_back("jetCross_jet");
    listOfVars.push_back("jetCross_noBoost");
    listOfVars.push_back("targetX");
    listOfVars.push_back("targetY");
@@ -164,7 +163,6 @@ void runTree(string inFile, string outFile, string histName, float targX, float 
    reader->AddVariable( "jetCross_H", &treeVars["jetCross_H"] );
    reader->AddVariable( "jetCross_Z", &treeVars["jetCross_Z"] );
    reader->AddVariable( "jetCross_T", &treeVars["jetCross_T"] );
-   reader->AddVariable( "jetCross_jet", &treeVars["jetCross_jet"] );
    reader->AddVariable( "jetCross_noBoost", &treeVars["jetCross_noBoost"] );
 
 

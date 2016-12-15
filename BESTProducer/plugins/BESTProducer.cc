@@ -42,11 +42,11 @@
 #include <fastjet/ClusterSequence.hh>
 #include <fastjet/ActiveAreaSpec.hh>
 #include <fastjet/ClusterSequenceArea.hh>
+#include <TTree.h>
+#include <TVector3.h>
 
 #include "TH2F.h"
-#include "TTree.h"
 #include "TLorentzVector.h"
-#include "TVector3.h"
 #include "TFile.h"
 #include "TCanvas.h"
 
@@ -214,7 +214,6 @@ BESTProducer::BESTProducer(const edm::ParameterSet& iConfig):
    listOfVars.push_back("jetCross_T");
    listOfVars.push_back("jetCross_Z");
    listOfVars.push_back("jetCross_H");
-   listOfVars.push_back("jetCross_jet");
    listOfVars.push_back("jetCross_noBoost");
 
 
@@ -569,28 +568,66 @@ BESTProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    vector<PseudoJet> jetsFJ_transformed = cs_transformed.inclusive_jets(10.0);
 
    //new
-   TVector3 tJet1_Top(jetsFJ[0].px(),jetsFJ[0].py(),jetsFJ[0].pz());
-   TVector3 tJet1_W(jetsFJ_W[0].px(),jetsFJ_W[0].py(),jetsFJ_W[0].pz());
-   TVector3 tJet1_Z(jetsFJ_Z[0].px(),jetsFJ_Z[0].py(),jetsFJ_Z[0].pz());
-   TVector3 tJet1_H(jetsFJ_H[0].px(),jetsFJ_H[0].py(),jetsFJ_H[0].pz());
-   TVector3 tJet1_jet(jetsFJ_jet[0].px(),jetsFJ_jet[0].py(),jetsFJ_jet[0].pz());
-   TVector3 tJet1_noBoost(jetsFJ_noBoost[0].px(),jetsFJ_noBoost[0].py(),jetsFJ_noBoost[0].pz());
+   //test that jet array has more than 1 entry before calculating
+   if(jetsFJ.size() > 1)
+   {
+      TVector3 tJet1_Top(jetsFJ[0].px(),jetsFJ[0].py(),jetsFJ[0].pz());
+      TVector3 tJet2_Top(jetsFJ[1].px(),jetsFJ[1].py(),jetsFJ[1].pz());
+      TVector3 tTopCross = tJet1_Top.Cross(tJet2_Top);
+      treeVars["jetCross_T"] = tTopCross.Mag2();
+   }
+   else
+   {
+      treeVars["jetCross_T"] = 100000000000.;
+   }
 
-   //new
-   TVector3 tJet2_Top(jetsFJ[1].px(),jetsFJ[1].py(),jetsFJ[1].pz());
-   TVector3 tJet2_W(jetsFJ_W[1].px(),jetsFJ_W[1].py(),jetsFJ_W[1].pz());
-   TVector3 tJet2_Z(jetsFJ_Z[1].px(),jetsFJ_Z[1].py(),jetsFJ_Z[1].pz());
-   TVector3 tJet2_H(jetsFJ_H[1].px(),jetsFJ_H[1].py(),jetsFJ_H[1].pz());
-   TVector3 tJet2_jet(jetsFJ_jet[1].px(),jetsFJ_jet[1].py(),jetsFJ_jet[1].pz());
-   TVector3 tJet2_noBoost(jetsFJ_noBoost[1].px(),jetsFJ_noBoost[1].py(),jetsFJ_noBoost[1].pz());
+   if(jetsFJ_W.size() > 1)
+   {
+      TVector3 tJet1_W(jetsFJ_W[0].px(),jetsFJ_W[0].py(),jetsFJ_W[0].pz());
+      TVector3 tJet2_W(jetsFJ_W[1].px(),jetsFJ_W[1].py(),jetsFJ_W[1].pz());
+      TVector3 tWCross = tJet1_W.Cross(tJet2_W);
+      treeVars["jetCross_W"] = tWCross.Mag2();
+   }
+   else
+   {
+      treeVars["jetCross_W"] = 100000000000.;
+   }
 
-   TVector3 tTopCross = tJet1_Top.Cross(tJet2_Top);
-   TVector3 tWCross = tJet1_W.Cross(tJet2_W);
-   TVector3 tZCross = tJet1_Z.Cross(tJet2_Z);
-   TVector3 tHCross = tJet1_H.Cross(tJet2_H);
-   TVector3 tJetCross = tJet1_jet.Cross(tJet2_jet);
-   TVector3 tnoBoostCross = tJet1_noBoost.Cross(tJet2_noBoost);
+   if(jetsFJ_Z.size() > 1)
+   {
+      TVector3 tJet1_Z(jetsFJ_Z[0].px(),jetsFJ_Z[0].py(),jetsFJ_Z[0].pz());
+      TVector3 tJet2_Z(jetsFJ_Z[1].px(),jetsFJ_Z[1].py(),jetsFJ_Z[1].pz());
+      TVector3 tZCross = tJet1_Z.Cross(tJet2_Z);
+      treeVars["jetCross_Z"] = tZCross.Mag2();
+   }
+   else
+   {
+      treeVars["jetCross_Z"] = 100000000000.;
+   }
 
+   if(jetsFJ_H.size() > 1)
+   {
+      TVector3 tJet1_H(jetsFJ_H[0].px(),jetsFJ_H[0].py(),jetsFJ_H[0].pz());
+      TVector3 tJet2_H(jetsFJ_H[1].px(),jetsFJ_H[1].py(),jetsFJ_H[1].pz());
+      TVector3 tHCross = tJet1_H.Cross(tJet2_H);
+      treeVars["jetCross_H"] = tHCross.Mag2();
+   }
+   else
+   {
+      treeVars["jetCross_H"] = 100000000000.;
+   }
+
+   if(jetsFJ_noBoost.size() > 1)
+   {
+      TVector3 tJet1_noBoost(jetsFJ_noBoost[0].px(),jetsFJ_noBoost[0].py(),jetsFJ_noBoost[0].pz());
+      TVector3 tJet2_noBoost(jetsFJ_noBoost[1].px(),jetsFJ_noBoost[1].py(),jetsFJ_noBoost[1].pz());
+      TVector3 tnoBoostCross = tJet1_noBoost.Cross(tJet2_noBoost);
+      treeVars["jetCross_noBoost"] = tnoBoostCross.Mag2();
+   }
+   else
+   {
+      treeVars["jetCross_noBoost"] = 100000000000.;
+   }
 
 
    //sum of jet pz and p  Indices = top, W, Z, H, j
@@ -685,15 +722,6 @@ BESTProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    treeVars["sphericity_H"] = eventShapes_H.sphericity(2);
    treeVars["aplanarity_H"] = eventShapes_H.aplanarity(2);
    treeVars["thrust_H"] = thrustCalculator_H.thrust();
-
-   //new
-
-   treeVars["jetCross_W"] = tWCross.Mag2();
-   treeVars["jetCross_H"] = tHCross.Mag2();
-   treeVars["jetCross_Z"] = tZCross.Mag2();
-   treeVars["jetCross_T"] = tTopCross.Mag2();
-   treeVars["jetCross_jet"] = tJetCross.Mag2();
-   treeVars["jetCross_noBoost"] = tnoBoostCross.Mag2();;
 
 
    jetTree->Fill();
